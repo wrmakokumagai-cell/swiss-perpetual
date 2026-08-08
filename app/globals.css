@@ -700,12 +700,16 @@ footer {
 
   .site-header {
     padding-inline: 20px;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
   }
 
   .site-header nav,
-  .header-actions > a:first-child {
+  .header-actions {
     display: none;
+  }
+
+  .monogram {
+    justify-self: center;
   }
 
   .hero-logo {
