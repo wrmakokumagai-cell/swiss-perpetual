@@ -62,9 +62,6 @@ export default function Home() {
         </nav>
         <div className="header-actions">
           <a href="#club">Join the club</a>
-          <a className="bag" href="#collection" aria-label="Shopping bag, empty">
-            Bag <span>(0)</span>
-          </a>
         </div>
       </header>
 
