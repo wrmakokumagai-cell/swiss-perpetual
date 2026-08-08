@@ -451,6 +451,9 @@ input {
 }
 
 .collection-feature {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 1.9fr 1fr;
   gap: 18px;
