@@ -104,7 +104,17 @@ export default function Home() {
       </section>
 
       <section className="intro" id="about">
-        <p className="section-label">Our point of view</p>
+        <div className="intro-aside">
+          <p className="section-label">Our point of view</p>
+          <Image
+            className="intro-emblem"
+            src={asset("/images/sphm-emblem.png")}
+            alt="SP x HM 2026 globe emblem"
+            width={1308}
+            height={1494}
+            unoptimized
+          />
+        </div>
         <p className="intro-copy">
           We don&apos;t make clothes for perfect moments. We make them for the ones
           you&apos;ll remember. Horsemen Ranch is built on hard work, good company,
