@@ -280,7 +280,13 @@ export default function Home() {
           sizes="(max-width: 640px) 94vw, 86vw"
         />
         <div className="footer-links">
-          <a href="#top">Instagram</a>
+          <a
+            href="https://www.instagram.com/horsemen.ph/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Instagram
+          </a>
         </div>
         <div className="footer-bottom">
           <span>© 2026 Horsemen Ranch Country Club</span>
