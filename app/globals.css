@@ -502,9 +502,9 @@ input {
   object-position: center 50%;
 }
 
-.collection-feature:has(.product-list a:nth-child(1):is(:hover, :focus-visible)) .product-image--space,
-.collection-feature:has(.product-list a:nth-child(2):is(:hover, :focus-visible)) .product-image--cart,
-.collection-feature:has(.product-list a:nth-child(3):is(:hover, :focus-visible)) .product-image--oyster {
+.collection-feature:has(.product-list button:nth-child(1):is(:hover, :focus-visible)) .product-image--space,
+.collection-feature:has(.product-list button:nth-child(2):is(:hover, :focus-visible)) .product-image--cart,
+.collection-feature:has(.product-list button:nth-child(3):is(:hover, :focus-visible)) .product-image--oyster {
   opacity: 1;
 }
 
@@ -527,13 +527,19 @@ input {
   border-top: 1px solid var(--ink);
 }
 
-.product-list a {
+.product-list button {
   padding: 19px 0;
   display: grid;
   grid-template-columns: 34px 1fr 75px 48px;
   align-items: baseline;
   gap: 12px;
+  width: 100%;
+  color: inherit;
+  background: transparent;
+  border: 0;
   border-bottom: 1px solid var(--line);
+  text-align: left;
+  cursor: default;
   font-family: var(--font-geist-mono), monospace;
   font-size: 8px;
   letter-spacing: 0.07em;
@@ -541,7 +547,7 @@ input {
   transition: padding 200ms ease, color 200ms ease;
 }
 
-.product-list a:hover {
+.product-list button:hover {
   padding-left: 8px;
   color: var(--red);
 }
@@ -861,11 +867,11 @@ footer {
     min-height: 112vw;
   }
 
-  .product-list a {
+  .product-list button {
     grid-template-columns: 24px 1fr 48px;
   }
 
-  .product-list a > span:nth-child(3) {
+  .product-list button > span:nth-child(3) {
     display: none;
   }
 

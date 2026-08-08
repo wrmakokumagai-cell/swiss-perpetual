@@ -232,24 +232,24 @@ export default function Home() {
             <span className="image-caption">Swiss Collab 1</span>
           </div>
           <div className="product-list">
-            <a href="#club">
+            <button type="button">
               <span>01</span>
               <strong>Space Man</strong>
               <span>Black</span>
               <span title="Preorder">PO</span>
-            </a>
-            <a href="#club">
+            </button>
+            <button type="button">
               <span>02</span>
               <strong>Cart Classic</strong>
               <span>Beige</span>
               <span title="Preorder">PO</span>
-            </a>
-            <a href="#club">
+            </button>
+            <button type="button">
               <span>03</span>
               <strong>Oyster Sauce</strong>
               <span>Offwhite</span>
               <span title="Preorder">PO</span>
-            </a>
+            </button>
             <p className="product-note">
               Through our Swiss engineering partnership, we deliver exceptional
               precision with virtually unlimited design possibilities.
