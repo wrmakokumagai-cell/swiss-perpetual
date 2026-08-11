@@ -17,13 +17,13 @@ export const metadata: Metadata = {
     description: "Made for the long way home.",
     type: "website",
     url: siteUrl,
-    images: [`${siteUrl}/og.png`],
+    images: [`${siteUrl}/og-logo.png`],
   },
   twitter: {
     card: "summary_large_image",
     title: "Horsemen Ranch Country Club",
     description: "Made for the long way home.",
-    images: [`${siteUrl}/og.png`],
+    images: [`${siteUrl}/og-logo.png`],
   },
 };
 
