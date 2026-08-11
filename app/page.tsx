@@ -113,9 +113,10 @@ export default function Home() {
           />
         </div>
         <p className="intro-copy">
-          We don&apos;t make clothes for perfect moments. We make them for the ones
-          you&apos;ll remember. Horsemen Ranch is built on hard work, good company,
-          open roads, and stories worth telling.
+          Born from a shared appreciation for craftsmanship, this collaboration
+          combines the precision of Swiss engineering with Horsemen&apos;s
+          uncompromising design philosophy. Together, they create products that
+          feel timeless in construction and unmistakably modern in character.
         </p>
         <div className="intro-signoff">
           <span>Good company.</span>
