@@ -5,15 +5,19 @@ const siteUrl = "https://wrmakokumagai-cell.github.io/horsemen-ranch";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Horsemen Ranch Country Club",
+  title: "Welcome to the Club",
   description:
     "Small-run garments and field notes for people who take the scenic route.",
   icons: {
-    icon: "/horsemen-ranch/favicon.svg",
-    shortcut: "/horsemen-ranch/favicon.svg",
+    icon: {
+      url: "/horsemen-ranch/sp-icon.png",
+      type: "image/png",
+    },
+    shortcut: "/horsemen-ranch/sp-icon.png",
+    apple: "/horsemen-ranch/sp-icon.png",
   },
   openGraph: {
-    title: "Horsemen Ranch Country Club",
+    title: "Welcome to the Club",
     description: "Made for the long way home.",
     type: "website",
     url: siteUrl,
@@ -21,7 +25,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Horsemen Ranch Country Club",
+    title: "Welcome to the Club",
     description: "Made for the long way home.",
     images: [`${siteUrl}/og-logo.png`],
   },
