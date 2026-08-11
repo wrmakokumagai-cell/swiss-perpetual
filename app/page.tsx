@@ -115,8 +115,7 @@ export default function Home() {
         <p className="intro-copy">
           Born from a shared appreciation for craftsmanship, this collaboration
           combines the precision of Swiss engineering with Horsemen&apos;s
-          uncompromising design philosophy. Together, they create products that
-          feel timeless in construction and unmistakably modern in character.
+          uncompromising design philosophy.
         </p>
         <div className="intro-signoff">
           <span>Good company.</span>
