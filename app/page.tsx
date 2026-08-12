@@ -29,7 +29,7 @@ export default function Home() {
         <div className="cover-motion">
           <video autoPlay muted loop playsInline poster={asset("/swiss/734718066_1781331769975594_7172137934390946895_n.jpg")} aria-label="Swiss Perpetual collection film"><source src={asset("/swiss/Toppy.mp4")} type="video/mp4" /></video>
           <div className="motion-shade" />
-          <h1 id="cover-title">timeless</h1><span className="sunmark" aria-hidden="true">✺</span>
+          <h1 id="cover-title" className="sr-only">Swiss Perpetual</h1><Image className="motion-wordmark" src={asset("/swiss/STL.png")} alt="" width={7262} height={1232} priority unoptimized />
           <p className="motion-note">Fine watches<br />Manila / Cebu / Davao</p><Image className="motion-logo" src={asset("/swiss/SPil.png")} alt="Swiss Perpetual" width={1254} height={1254} priority unoptimized />
         </div>
         <div className="cover-info">
