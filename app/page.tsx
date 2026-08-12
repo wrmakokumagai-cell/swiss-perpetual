@@ -16,21 +16,21 @@ const stories = [
   { title: "Cebu: a room made for taking your time", label: "At the maison", image: "/swiss/sp+cebu.jpg" },
 ];
 
+const branches = [
+  { city: "Manila", note: "By appointment", image: "/swiss/386469065_1150884049223128_5253316123175005677_n.jpg", href: "https://www.swissperpetual.net/manila" },
+  { city: "Cebu", note: "Private showroom", image: "/swiss/sp+cebu.jpg", href: "https://www.swissperpetual.net/cebu" },
+  { city: "Davao", note: "Now welcoming", image: "/swiss/387789292_18007724104988679_3103763669942720122_n.jpg", href: "https://www.swissperpetual.net/davao" },
+];
 export default function Home() {
   return (
     <main id="top">
-      <header className="topbar">
-        <a className="mark" href="#top" aria-label="Swiss Perpetual home"><span>SP</span><small>Swiss Perpetual</small></a>
-        <nav aria-label="Primary navigation"><a href="#collection">Collection</a><a href="#journal">Journal</a><a href="#visit">Visit</a></nav>
-        <a className="inquire" href="https://www.swissperpetual.net/contact-us">Inquire ↗</a>
-      </header>
 
       <section className="cover" aria-labelledby="cover-title">
         <div className="cover-motion">
           <video autoPlay muted loop playsInline poster={asset("/swiss/734718066_1781331769975594_7172137934390946895_n.jpg")} aria-label="Swiss Perpetual collection film"><source src={asset("/swiss/Toppy.mp4")} type="video/mp4" /></video>
           <div className="motion-shade" />
           <h1 id="cover-title">timeless</h1><span className="sunmark" aria-hidden="true">✺</span>
-          <p className="motion-note">Fine watches<br />Manila · Cebu · Davao</p>
+          <p className="motion-note">Fine watches<br />Manila / Cebu / Davao</p><Image className="motion-logo" src={asset("/swiss/SPil.png")} alt="Swiss Perpetual" width={1254} height={1254} priority unoptimized />
         </div>
         <div className="cover-info">
           <h2>fine watches</h2>
@@ -45,11 +45,26 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="point" aria-labelledby="point-title">
-        <p className="eyebrow">01 — Point of view</p>
-        <h2 id="point-title">Objects that<br />outlive the moment.</h2>
-        <p className="point-copy">Not simply watches. Milestones, future heirlooms, and stories still being written. Every piece is selected with discretion and examined with care.</p>
-        <p className="point-sign">Seconds that last.®</p>
+      <section className="branch-showcase" aria-labelledby="branches-title">
+        <header className="branch-heading">
+          <p>01 &mdash; The maisons</p>
+          <h2 id="branches-title">visit us</h2>
+          <span>Manila / Cebu / Davao</span>
+        </header>
+
+        <div className="branch-gallery">
+          {branches.map((branch, index) => (
+            <a className="branch-card" href={branch.href} key={branch.city}>
+              <Image src={asset(branch.image)} alt={`Swiss Perpetual ${branch.city} branch`} fill unoptimized sizes="(max-width: 760px) 100vw, 33vw" />
+              <span className="branch-shade" />
+              <span className="branch-number">0{index + 1}</span>
+              <div className="branch-label"><h3>{branch.city}</h3><p>{branch.note}</p></div>
+              <span className="branch-arrow">&nearr;</span>
+            </a>
+          ))}
+        </div>
+
+        <p className="branch-footnote">Private viewings are encouraged.</p>
       </section>
 
       <section className="collection" id="collection" aria-labelledby="collection-title">
