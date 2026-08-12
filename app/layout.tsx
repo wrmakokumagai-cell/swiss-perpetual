@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.swissperpetual.net"),
-  title: "Swiss Perpetual — Fine Watches",
+  title: "Swiss Perpetual — Luxury Watches",
   description: "Exceptional watches, thoughtfully sourced in Manila, Cebu, and Davao.",
   icons: { icon: "/swiss/favicon.ico" },
   openGraph: {
