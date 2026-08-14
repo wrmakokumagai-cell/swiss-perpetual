@@ -1,4 +1,15 @@
-// Intentionally empty by default.
-// Add Drizzle tables here when the site actually needs a database.
-// See examples/d1/db/schema.ts for an opt-in example.
-export {};
+﻿import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+
+export const siteContent = sqliteTable("site_content", {
+  id: text("id").primaryKey(),
+  payload: text("payload").notNull(),
+  updatedAt: integer("updated_at").notNull(),
+});
+
+export const mediaAssets = sqliteTable("media_assets", {
+  id: text("id").primaryKey(),
+  filename: text("filename").notNull(),
+  contentType: text("content_type").notNull(),
+  size: integer("size").notNull(),
+  createdAt: integer("created_at").notNull(),
+});
