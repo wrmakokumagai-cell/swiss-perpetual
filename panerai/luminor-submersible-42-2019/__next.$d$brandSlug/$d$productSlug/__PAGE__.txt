@@ -3,5 +3,5 @@
 3:I[9088,[],"OutletBoundary"]
 4:"$Sreact.suspense"
 :HL["/swiss-perpetual/_next/static/css/0527b474ffcb43d2.css","style"]
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"brandSlug":"panerai","productSlug":"luminor-submersible-42-2019"}],[["$","link","0",{"rel":"stylesheet","href":"/swiss-perpetual/_next/static/css/0527b474ffcb43d2.css","precedence":"next"}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"Neg07ptqbiun8cPRAtyVu"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"brandSlug":"panerai","productSlug":"luminor-submersible-42-2019"}],[["$","link","0",{"rel":"stylesheet","href":"/swiss-perpetual/_next/static/css/0527b474ffcb43d2.css","precedence":"next"}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"d12yLyMfJQE8Yrm8vjqts"}
 5:null
