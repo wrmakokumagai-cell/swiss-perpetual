@@ -3,11 +3,11 @@
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import type { ManagedBrand, ManagedProduct, SiteContent } from "../content/types";
 import { normalizeProductSlugs } from "../content/slugs";
+import { parseProductImport, type ProductImportResult } from "./productImport";
 import styles from "./admin.module.css";
 
 type Tab = "home" | "featured" | "brands" | "marketplace";
 const uid = () => crypto.randomUUID();
-const clone = <T,>(value: T): T => JSON.parse(JSON.stringify(value));
 
 function MediaField({ label, value, accept = "image/*", onChange }: { label: string; value: string; accept?: string; onChange: (value: string) => void }) {
   const [uploading, setUploading] = useState(false);
@@ -34,8 +34,36 @@ function ProductEditorCard({ product, brand, onUpdate, onRemove }: {
   onRemove: () => void;
 }) {
   const [editing, setEditing] = useState(false);
+  const [importText, setImportText] = useState("");
+  const [importResult, setImportResult] = useState<ProductImportResult | null>(null);
+  const [importError, setImportError] = useState("");
   const gallery = product.gallery ?? [];
   const insightBlocks = product.insightBlocks ?? [];
+  const previewImport = () => {
+    try {
+      setImportResult(parseProductImport(importText, brand));
+      setImportError("");
+    } catch (error) {
+      setImportResult(null);
+      setImportError(error instanceof Error ? error.message : "The product text could not be parsed.");
+    }
+  };
+  const applyImport = () => {
+    if (!importResult) return;
+    const patch: Partial<ManagedProduct> = {};
+    if (importResult.title) patch.name = importResult.title;
+    if (importResult.detail) patch.detail = importResult.detail;
+    if (importResult.family !== null) patch.family = importResult.family;
+    if (importResult.contentTitle) patch.contentTitle = importResult.contentTitle;
+    if (importResult.contentCopy) patch.contentCopy = importResult.contentCopy;
+    if (importResult.price) patch.price = importResult.price;
+    if (importResult.visible !== null) patch.visible = importResult.visible;
+    if (importResult.insightBlocks.length) patch.insightBlocks = importResult.insightBlocks;
+    onUpdate(patch);
+    setImportText("");
+    setImportResult(null);
+    setImportError("");
+  };
   return <article className={`${styles.product} ${editing ? styles.productOpen : ""}`}>
     <header className={styles.productSummary}>
       <strong>{product.name}</strong>
@@ -47,6 +75,25 @@ function ProductEditorCard({ product, brand, onUpdate, onRemove }: {
     </header>
 
     {editing && <div className={styles.editorBody}>
+      <section className={`${styles.editorGroup} ${styles.importGroup}`}>
+        <div className={styles.editorGroupHeader}><div><h3>Paste product feature</h3><p className={styles.hint}>Paste a SWISS_PERPETUAL_PRODUCT_V1 text record. Nothing changes until you review and apply it.</p><p className={styles.hint}>For Curator Insight blocks, use one <strong>LABEL | VALUE</strong> line per block between CURATOR_INSIGHT_START and CURATOR_INSIGHT_END.</p></div></div>
+        <label className={styles.importField}><span>Structured product text</span><textarea value={importText} onChange={(event) => { setImportText(event.target.value); setImportResult(null); setImportError(""); }} placeholder={"SWISS_PERPETUAL_PRODUCT_V1\n\nBRAND: Rolex\nTITLE: Datejust 36\n...\nCURATOR_INSIGHT_START\nModel | Datejust 36\nReference | 126234\nDial | Mother of Pearl\nYear | 2020\nCondition | 9/10\nCURATOR_INSIGHT_END\n\nEND_PRODUCT"} /></label>
+        <div className={styles.importActions}><button type="button" onClick={previewImport} disabled={!importText.trim()}>Preview import</button><button type="button" className={styles.secondaryImport} onClick={() => { setImportText(""); setImportResult(null); setImportError(""); }} disabled={!importText && !importResult}>Clear</button></div>
+        {importError && <p className={styles.importError}>{importError}</p>}
+        {importResult && <div className={styles.importPreview}>
+          <div className={styles.importPreviewHeader}><div><h4>Import preview</h4><p>Blank fields will not replace existing content.</p></div><button type="button" onClick={applyImport}>Apply to product</button></div>
+          <dl>
+            <div><dt>Brand</dt><dd>{importResult.brand || `${brand.name} (current)`}</dd></div>
+            <div><dt>Title</dt><dd>{importResult.title || `${product.name} (current)`}</dd></div>
+            <div><dt>Category</dt><dd>{importResult.family === null ? `${brand.families[product.family]} (current)` : brand.families[importResult.family]}</dd></div>
+            <div><dt>Reference</dt><dd>{importResult.reference || "Not supplied"}</dd></div>
+            <div><dt>Price</dt><dd>{importResult.price || `${product.price || "Blank"} (current)`}</dd></div>
+            <div><dt>Curator blocks</dt><dd>{importResult.insightBlocks.length || `${insightBlocks.length} (current)`}</dd></div>
+          </dl>
+          {importResult.warnings.length > 0 && <div className={styles.importWarnings}><strong>Review before applying</strong>{importResult.warnings.map((warning) => <p key={warning}>{warning}</p>)}</div>}
+        </div>}
+      </section>
+
       <section className={styles.editorGroup}>
         <h3>Identity</h3>
         <Field label="Title" value={product.name} onChange={(name) => onUpdate({ name })} />
@@ -107,6 +154,16 @@ export default function AdminEditor() {
   if (!authenticated) return <main className={styles.login}><form onSubmit={login}><p>Swiss Perpetual</p><h1>Content editor</h1><label>Password<input type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoFocus /></label><button type="submit">Enter editor</button>{status && <small>{status}</small>}</form></main>;
   if (!content) return null;
 
+  const addVisitLocation = () => {
+    const id = uid();
+    updateHome({ visitLocations: [...content.home.visitLocations, { id, code: "NEW", city: "New location", image: "/swiss/IMG_0557.JPG", lead: "Private viewings by appointment.", area: "New showroom", access: "Appointment details", expectation: "Describe the showroom experience.", map: "Swiss Perpetual Philippines", visible: false }] });
+  };
+  const updateVisitLocation = (id: string, patch: Partial<SiteContent["home"]["visitLocations"][number]>) => updateHome({ visitLocations: content.home.visitLocations.map((location) => location.id === id ? { ...location, ...patch } : location) });
+  const removeVisitLocation = (id: string) => {
+    const location = content.home.visitLocations.find((item) => item.id === id);
+    if (!confirm(`Remove ${location?.city ?? "this location"} from Visit Us?`)) return;
+    updateHome({ visitLocations: content.home.visitLocations.filter((item) => item.id !== id) });
+  };
   const addBrand = () => {
     const newBrand: ManagedBrand = { slug: `new-brand-${Date.now()}`, name: "New Brand", logo: "/swiss/spil-nav.png", logoWidth: 600, logoHeight: 300, darkLogo: true, visible: false, archived: true, families: ["Collection One", "Collection Two"], products: [] };
     setContent({ ...content, brands: [...content.brands, newBrand].sort((a, b) => a.name.localeCompare(b.name)) }); setSelectedBrand(newBrand.slug);
@@ -149,8 +206,21 @@ export default function AdminEditor() {
         <header className={styles.sectionTitle}><p>Main page</p><h2>Home layout editor</h2></header>
         <div className={styles.panel}><h3>Opening block</h3><MediaField label="Top navigation logo" value={content.home.navigationLogo} onChange={(navigationLogo) => updateHome({ navigationLogo })} /><MediaField label="Seconds That Last artwork" value={content.home.introLogo} onChange={(introLogo) => updateHome({ introLogo })} /><Field label="Small heading" value={content.home.introKicker} onChange={(introKicker) => updateHome({ introKicker })} multiline /><Field label="Opening copy" value={content.home.introCopy} onChange={(introCopy) => updateHome({ introCopy })} multiline /></div>
         <div className={styles.panel}><h3>Hero block</h3><MediaField label="Hero video" value={content.home.heroVideo} accept="video/*" onChange={(heroVideo) => updateHome({ heroVideo })} /><MediaField label="Video poster" value={content.home.heroPoster} onChange={(heroPoster) => updateHome({ heroPoster })} /><Field label="Hero copy" value={content.home.heroCopy} onChange={(heroCopy) => updateHome({ heroCopy })} multiline /></div>
-        <div className={styles.panel}><h3>Watches with a life beyond the moment</h3>{content.home.watchHeading.map((line, index) => <Field key={index} label={`Heading line ${index + 1}`} value={line} onChange={(value) => { const next = [...content.home.watchHeading] as [string, string, string]; next[index] = value; updateHome({ watchHeading: next }); }} />)}<Field label="Optional supporting copy" value={content.home.watchCopy} onChange={(watchCopy) => updateHome({ watchCopy })} multiline /></div>
-        <div className={styles.panel}><h3>Recent stories</h3><Field label="Section heading" value={content.home.storiesHeading} onChange={(storiesHeading) => updateHome({ storiesHeading })} />{content.home.stories.map((story, index) => <div className={styles.storyRow} key={index}><MediaField label={`Story ${index + 1} image`} value={story.image} onChange={(image) => { const stories = clone(content.home.stories); stories[index].image = image; updateHome({ stories }); }} /><Field label="Alt text" value={story.alt} onChange={(alt) => { const stories = clone(content.home.stories); stories[index].alt = alt; updateHome({ stories }); }} /><Field label="Link" value={story.href} onChange={(href) => { const stories = clone(content.home.stories); stories[index].href = href; updateHome({ stories }); }} /></div>)}</div>
+        <div className={styles.panel}><h3>Horizontal strip 1</h3>{content.home.watchHeading.map((line, index) => <Field key={index} label={`Heading line ${index + 1}`} value={line} onChange={(value) => { const next = [...content.home.watchHeading] as [string, string, string]; next[index] = value; updateHome({ watchHeading: next }); }} />)}<Field label="Optional supporting copy" value={content.home.watchCopy} onChange={(watchCopy) => updateHome({ watchCopy })} multiline /></div>
+        <div className={styles.panel}><h3>Horizontal strip 2</h3>{content.home.visitHeading.map((line, index) => <Field key={index} label={`Heading line ${index + 1}`} value={line} onChange={(value) => { const next = [...content.home.visitHeading] as [string, string, string]; next[index] = value; updateHome({ visitHeading: next }); }} />)}</div>
+        <div className={styles.panel}>
+          <div className={styles.locationManagerHeader}><div><h3>Visit us</h3><p className={styles.hint}>Manage the city selector, showroom panels, and Google Maps destinations shown on the homepage.</p></div><button type="button" onClick={addVisitLocation}>Add location</button></div>
+          {content.home.visitLocations.length === 0 && <p className={styles.emptyState}>No Visit Us locations are currently configured.</p>}
+          <div className={styles.locationList}>{content.home.visitLocations.map((location, index) => <article className={styles.locationCard} key={location.id}>
+            <header><div><small>Location {String(index + 1).padStart(2, "0")}</small><strong>{location.city || "Untitled location"}</strong></div><div className={styles.locationActions}><button type="button" className={location.visible ? styles.visibleActive : ""} onClick={() => updateVisitLocation(location.id, { visible: !location.visible })}>{location.visible ? "Visible" : "Hidden"}</button><button type="button" className={styles.removeAction} onClick={() => removeVisitLocation(location.id)}>Remove</button></div></header>
+            <div className={styles.locationGrid}><Field label="Selector code" value={location.code} onChange={(code) => updateVisitLocation(location.id, { code: code.toUpperCase().slice(0, 4) })} /><Field label="City" value={location.city} onChange={(city) => updateVisitLocation(location.id, { city })} /></div>
+            <MediaField label="Showroom image" value={location.image} onChange={(image) => updateVisitLocation(location.id, { image })} />
+            <Field label="Opening copy" value={location.lead} onChange={(lead) => updateVisitLocation(location.id, { lead })} multiline />
+            <div className={styles.locationGrid}><Field label="Location label" value={location.area} onChange={(area) => updateVisitLocation(location.id, { area })} /><Field label="Access / appointment copy" value={location.access} onChange={(access) => updateVisitLocation(location.id, { access })} /></div>
+            <Field label="What to expect" value={location.expectation} onChange={(expectation) => updateVisitLocation(location.id, { expectation })} multiline />
+            <Field label="Google Maps search query" value={location.map} onChange={(map) => updateVisitLocation(location.id, { map })} />
+          </article>)}</div>
+        </div>
       </>}
 
       {tab === "featured" && <><header className={styles.sectionTitle}><p>Main page</p><h2>Featured collection</h2></header><div className={styles.panel}><Field label="Opening heading" value={content.home.featuredIntroHeading} onChange={(featuredIntroHeading) => updateHome({ featuredIntroHeading })} /><Field label="Opening copy" value={content.home.featuredIntroCopy} onChange={(featuredIntroCopy) => updateHome({ featuredIntroCopy })} multiline /><Field label="Reveal heading" value={content.home.featuredHeading} onChange={(featuredHeading) => updateHome({ featuredHeading })} /><h3>Choose up to four brands</h3><div className={styles.checkGrid}>{availableFeatured.map((item) => { const checked = content.home.featuredBrands.includes(item.slug); return <label key={item.slug}><input type="checkbox" checked={checked} onChange={() => { let next = checked ? content.home.featuredBrands.filter((slug) => slug !== item.slug) : [...content.home.featuredBrands, item.slug]; if (next.length > 4) { alert("Choose a maximum of four featured brands."); return; } updateHome({ featuredBrands: next }); }} />{item.name}</label>; })}</div><p className={styles.hint}>{content.home.featuredBrands.length} / 4 selected. Order follows your selection.</p><h3>Featured logo archive</h3>{content.home.featuredBrands.map((slug) => { const item = content.brands.find((entry) => entry.slug === slug); return <MediaField key={slug} label={`${item?.name ?? slug} — Featured-only logo`} value={content.home.featuredLogos?.[slug] || `/swiss/featured-brands/${slug}.png`} onChange={(value) => updateHome({ featuredLogos: { ...(content.home.featuredLogos ?? {}), [slug]: value } })} />; })}</div></>}

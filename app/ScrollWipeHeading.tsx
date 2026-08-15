@@ -7,7 +7,7 @@ type WipeStyle = CSSProperties & { "--wipe-line-1": number; "--wipe-line-2": num
 const clamp = (value: number) => Math.min(1, Math.max(0, value));
 const smooth = (value: number) => value * value * (3 - 2 * value);
 
-export default function ScrollWipeHeading({ lines = ["Watches with", "a life beyond", "the moment."] }: { lines?: [string, string, string] }) {
+export default function ScrollWipeHeading({ lines = ["Watches with", "a life beyond", "the moment."], id = "feature-title" }: { lines?: [string, string, string]; id?: string }) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
     const heading = headingRef.current;
@@ -39,7 +39,7 @@ export default function ScrollWipeHeading({ lines = ["Watches with", "a life bey
   }, []);
   const initialStyle = { "--wipe-line-1": 0, "--wipe-line-2": 0, "--wipe-line-3": 0 } as WipeStyle;
   const lineStyle = (variable: string) => ({ "--line-progress": variable } as CSSProperties);
-  return <h2 ref={headingRef} id="feature-title" className={styles.wipeHeading} style={initialStyle} aria-label={lines.join(" ")}>
+  return <h2 ref={headingRef} id={id} className={styles.wipeHeading} style={initialStyle} aria-label={lines.join(" ")}>
     {lines.map((line, index) => <span className={styles.wipeLine} style={lineStyle(`var(--wipe-line-${index + 1})`)} key={`${line}-${index}`}>{line}</span>)}
   </h2>;
 }

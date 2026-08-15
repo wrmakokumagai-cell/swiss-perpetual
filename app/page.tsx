@@ -4,6 +4,7 @@ import Image from "next/image";
 import HeroVideo from "./HeroVideo";
 import FeaturedScroller from "./FeaturedScroller";
 import ScrollWipeHeading from "./ScrollWipeHeading";
+import VisitUsSection from "./VisitUsSection";
 import { useSiteContent } from "./content/useSiteContent";
 import styles from "./HomeEditorial.module.css";
 
@@ -29,10 +30,8 @@ export default function Home() {
       <div className={styles.featureSticky}><div className={styles.feature}><div className={styles.featureLeft}><div className={styles.featureEditorial}><div className={styles.featureCopy}><ScrollWipeHeading lines={home.watchHeading} />{home.watchCopy && <p>{home.watchCopy}</p>}</div></div></div><div className={styles.featureImage} aria-hidden="true" /></div></div>
     </section>
     <section className={styles.collection} id="collection" aria-labelledby="collection-title"><FeaturedScroller content={home} brands={content.brands} /></section>
-    <section className={styles.journal} id="journal" aria-labelledby="journal-title">
-      <header className={styles.sectionHeader}><h2 id="journal-title">{home.storiesHeading}</h2><a href="https://www.instagram.com/swissperpetual/">Instagram</a></header>
-      <div className={styles.feedGrid}>{home.stories.map((item, index) => <a className={styles.feedCard} href={item.href} key={`${item.image}-${index}`} aria-label={`View story ${index + 1}`}><div className={styles.feedImage}><Image src={asset(item.image)} alt={item.alt} fill unoptimized sizes="(max-width: 700px) 50vw, 25vw" /></div><span>Story {String(index + 1).padStart(2, "0")}</span></a>)}</div>
-    </section>
+    <section className={styles.visitPrelude} aria-labelledby="visit-prelude-title" data-wipe-stage><ScrollWipeHeading id="visit-prelude-title" lines={home.visitHeading} /></section>
+    <VisitUsSection locations={home.visitLocations} />
     <footer className={styles.footer}><div className={styles.footerBrand}><Image src={asset("/swiss/footer-logo-white.png")} alt="Swiss Perpetual Luxury Watches" width={1039} height={500} unoptimized /></div><a className={styles.footerPortfolio} href="https://wrmakokumagai-cell.github.io/" target="_blank" rel="noreferrer" aria-label="Visit WR Mako Kumagai portfolio"><Image src={asset("/swiss/OP.png")} alt="WR Mako Kumagai" width={11180} height={5262} unoptimized /></a><p className={styles.copyright}>© 2026 Swiss Perpetual / Manila, Cebu, Davao</p></footer>
   </main>;
 }
