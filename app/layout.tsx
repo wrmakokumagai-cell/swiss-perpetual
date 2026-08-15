@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   title: "Swiss Perpetual — Luxury Watches",
   description: "Exceptional watches, thoughtfully sourced in Manila, Cebu, and Davao.",
   icons: {
-    icon: [{ url: "/swiss-perpetual-favicon.ico?v=4", type: "image/x-icon", sizes: "32x32" }],
-    shortcut: "/swiss-perpetual-favicon.ico?v=4",
-    apple: "/sp-icon.png?v=3",
+    icon: [{ url: "/sp-favicon-v5.ico", type: "image/x-icon", sizes: "32x32" }],
+    shortcut: "/sp-favicon-v5.ico",
+    apple: "/sp-favicon-v5.png",
   },
   openGraph: {
     title: "Swiss Perpetual — Seconds that last.",
@@ -27,6 +27,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body>{children}</body></html>;
 }
+
 
 
 
