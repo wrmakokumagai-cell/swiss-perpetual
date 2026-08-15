@@ -389,3 +389,77 @@
 .visitPrelude{height:300px;margin:0 14px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#edebeb}
 .visitPrelude .wipeHeading{width:100%;margin:0;display:flex;justify-content:center;gap:.2em;white-space:nowrap;text-align:center;font-family:"Aglio Picasso","Times New Roman",serif;font-size:clamp(62px,6.7vw,128px);font-weight:400;line-height:.82;letter-spacing:-.025em}
 @media(max-width:800px){.visitPrelude{height:300px;margin:0 8px;padding:0 16px}.visitPrelude .wipeHeading{display:block;white-space:normal;text-align:left;font-size:14vw;line-height:.82}}
+
+/* Mobile stabilization. Desktop rules above remain unchanged. */
+@media(max-width:800px){
+  .page{width:100%;max-width:100%;overflow-x:clip}
+  .page>*{min-width:0;max-width:100%}
+  .topNav{height:48px;padding:0 12px}
+  .topBrand{width:min(48vw,184px);max-width:none}
+  .intro{min-height:0;padding:48px 16px 32px;display:flex;flex-direction:column;gap:24px;overflow:hidden}
+  .introArt,.introCopy{width:100%;max-width:100%;min-width:0}
+  .introArt img{display:block;width:100%;height:auto;object-fit:contain}
+  .introCopy{overflow-wrap:anywhere}
+  .introCopy p{max-width:34ch}
+  .hero{height:68svh;min-height:420px;max-height:620px}
+  .featureStage{height:260px;margin:8px 8px 0}
+  .featureSticky{height:260px;min-height:260px;position:relative;top:0}
+  .featureStage .feature{height:260px;min-height:260px;display:block!important}
+  .featureStage .featureLeft{height:260px;min-height:260px!important;padding:0 20px;display:flex;align-items:center}
+  .featureStage .featureImage{display:none!important}
+  .featureStage .featureEditorial{display:block;width:100%}
+  .featureStage .featureWatch,.featureStage .featureCopy>p,.featureStage .featureCopy>a{display:none}
+  .featureStage .wipeHeading{display:flex;justify-content:center;gap:.14em;white-space:nowrap;text-align:center}
+  .featureStage .featureCopy h2{margin:0!important;font-size:clamp(38px,10.6vw,58px)!important;line-height:.86!important}
+  .featureStage .wipeLine,.visitPrelude .wipeLine{opacity:1!important;transform:none!important}
+  .featuredScrollScene{height:235svh}
+  .featuredSticky{height:100svh;min-height:0}
+  .featuredSceneImage{inset:-18px;background-position:58% center}
+  .featuredOpening{left:18px;right:18px;top:48%;width:auto}
+  .featuredOpening h2{margin-bottom:18px;font-size:clamp(54px,17vw,86px)}
+  .featuredOpening>p:last-child{max-width:31ch;font-size:15px}
+  .featuredReveal h2{font-size:clamp(50px,15vw,78px)}
+  .featuredFamily{width:calc(100% - 24px);top:35%;gap:12px 6px}
+  .featuredBrandLogo{height:96px;padding:5px}
+  .featuredBrandLogo img{max-height:70px}
+  .featuredAllBrands{bottom:max(18px,env(safe-area-inset-bottom))}
+  .visitPrelude{height:220px;margin:0 8px;padding:0 14px}
+  .visitPrelude .wipeHeading{display:flex;justify-content:center;gap:.12em;white-space:nowrap;text-align:center;font-size:clamp(38px,10vw,54px);line-height:.86}
+  .footer{padding-bottom:max(20px,env(safe-area-inset-bottom))}
+}
+
+
+
+@media(max-width:800px){
+  .nav{height:48px;padding:0 12px}
+  .nav .brand{width:min(48vw,184px);height:34px}
+  .introArtwork{width:auto!important;max-width:100%!important;align-self:stretch!important;overflow:hidden}
+  .introArtwork img{display:block;width:100%!important;max-width:100%!important;height:auto!important;object-fit:contain!important;object-position:left center}
+}
+
+
+
+@media(max-width:800px){
+  .introArtwork{flex:0 0 auto;width:calc(100vw - 32px)!important;max-width:calc(100vw - 32px)!important}
+  .introArtwork img{width:calc(100vw - 32px)!important;max-width:calc(100vw - 32px)!important}
+}
+
+
+
+@media(max-width:800px){
+  .introArtwork{height:clamp(54px,16.65vw,82px)!important}
+  .introArtwork img{width:100%!important;max-width:100%!important;height:100%!important;object-fit:contain!important;object-position:left center!important}
+}
+
+
+/* Freeze the approved phone composition below its 430px artboard. */
+@media(max-width:430px){
+  .page{width:430px;min-width:430px;max-width:none}
+  .introArtwork{width:398px!important;max-width:398px!important;height:72px!important}
+  .introArtwork img{width:398px!important;max-width:398px!important}
+  .featureStage .featureCopy h2{font-size:46px!important}
+  .featuredOpening h2{font-size:73px}
+  .featuredReveal h2{font-size:65px}
+  .featuredFamily{width:406px}
+  .visitPrelude .wipeHeading{font-size:43px}
+}

@@ -22,3 +22,33 @@
 .mapLabel h3{margin:0 0 28px;font-family:"Aglio Picasso","Times New Roman",serif;font-size:72px;font-weight:400;line-height:.8}.mapLabel a{font-size:10px;text-transform:uppercase;letter-spacing:.08em}
 @media(max-width:700px){.stage{height:280vh}.sticky{min-height:580px}.selector{top:12px}.selector button{min-width:48px;padding:8px}.heroCopy{left:18px;bottom:34px}.heroCopy h2{font-size:25vw}.heroCopy span{margin-top:24px;font-size:15px}.featurePanel{grid-template-columns:1fr;grid-template-rows:auto auto 1fr;padding:62px 12px 12px}.featureTitle{padding:18px 0}.featureTitle h3{font-size:15vw}.featureDetails{padding:18px 0;gap:12px}.featureDetails h4{margin:12px 0 8px;font-size:17px}.featureDetails p{font-size:12px}.featurePhoto{grid-column:1;grid-row:3}.mapPanel{padding:8px}.mapLabel{left:20px;right:20px;bottom:20px;min-width:0}.mapLabel h3{font-size:56px}}
 @media(prefers-reduced-motion:reduce){.stage{height:240vh}}
+/* Mobile-only stabilization for dynamic browser chrome and compact screens. */
+@media(max-width:700px){
+  .stage{height:260svh;min-height:0;overflow:clip}
+  .sticky{height:100svh;min-height:0}
+  .selector{top:max(10px,env(safe-area-inset-top));gap:4px;padding:4px}
+  .selector button{min-width:46px;padding:8px 9px;font-size:10px}
+  .heroCopy{left:16px;right:16px;bottom:max(24px,calc(env(safe-area-inset-bottom) + 14px));max-width:none}
+  .heroCopy p{margin-bottom:12px}
+  .heroCopy h2{font-size:clamp(72px,22vw,108px);line-height:.76}
+  .heroCopy span{max-width:28ch;margin-top:18px;font-size:14px;line-height:1.15}
+  .featurePanel{grid-template-rows:auto auto minmax(0,1fr);padding:58px 12px 12px}
+  .featureTitle{padding:12px 0 10px}
+  .featureTitle>p{margin-bottom:10px}
+  .featureTitle h3{font-size:clamp(44px,12vw,62px);line-height:.84}
+  .featureDetails{padding:12px 0;gap:10px}
+  .featureDetails>div{padding-right:8px}
+  .featureDetails span{font-size:8px}
+  .featureDetails h4{margin:8px 0 6px;font-size:15px}
+  .featureDetails p{font-size:11px;line-height:1.15}
+  .featurePhoto{min-height:0}
+  .mapPanel{padding:8px}
+  .mapLabel{left:16px;right:16px;bottom:max(16px,env(safe-area-inset-bottom));padding:16px}
+  .mapLabel h3{margin-bottom:18px;font-size:50px}
+}
+/* Keep the approved visit-us mobile artboard intact on narrower screens. */
+@media(max-width:430px){
+  .stage,.sticky{width:430px;min-width:430px}
+  .heroCopy h2{font-size:95px}
+  .featureTitle h3{font-size:52px}
+}

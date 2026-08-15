@@ -24,3 +24,13 @@
 
 @media(max-width:700px){.catalogueCrown{height:138px;padding:8px}.catalogueCrown img{width:auto;max-width:min(78vw,420px);max-height:100%}}
 
+
+/* Preserve the reference catalogue composition below the phone artboard. */
+@media(max-width:430px){
+  .page{width:430px;min-width:430px}
+  .crown img{width:275px}
+  .catalogueCrown img{max-width:335px}
+  .card{flex-basis:335px}
+  .emptyCollection{min-width:335px}
+  .brandWordmark{font-size:77px}
+}
