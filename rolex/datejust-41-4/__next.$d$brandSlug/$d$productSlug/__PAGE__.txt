@@ -1,0 +1,7 @@
+1:"$Sreact.fragment"
+2:I[7457,["552","static/chunks/552-faa5282bca858be5.js","511","static/chunks/511-3070d38f3d2d7860.js","208","static/chunks/app/%5BbrandSlug%5D/%5BproductSlug%5D/page-a64ca9f4fbafbee9.js"],"default"]
+3:I[9088,[],"OutletBoundary"]
+4:"$Sreact.suspense"
+:HL["/swiss-perpetual/_next/static/css/0527b474ffcb43d2.css","style"]
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"brandSlug":"rolex","productSlug":"datejust-41-4"}],[["$","link","0",{"rel":"stylesheet","href":"/swiss-perpetual/_next/static/css/0527b474ffcb43d2.css","precedence":"next"}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"Neg07ptqbiun8cPRAtyVu"}
+5:null
