@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.swissperpetual.net"),
+  metadataBase: new URL("https://swissperpetual.net"),
   title: "Swiss Perpetual — Luxury Watches",
   description: "Exceptional watches, thoughtfully sourced in Manila, Cebu, and Davao.",
   icons: {
-    icon: [{ url: "/favicon.ico?v=3", type: "image/x-icon", sizes: "32x32" }],
-    shortcut: "/favicon.ico?v=3",
+    icon: [{ url: "/swiss-perpetual-favicon.ico?v=4", type: "image/x-icon", sizes: "32x32" }],
+    shortcut: "/swiss-perpetual-favicon.ico?v=4",
     apple: "/sp-icon.png?v=3",
   },
   openGraph: {
@@ -27,5 +27,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <html lang="en"><body>{children}</body></html>;
 }
+
 
 
