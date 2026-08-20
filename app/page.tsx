@@ -55,9 +55,9 @@ export default function Home() {
   </section>;
   return <main id="top" className={styles.page}>
     <header className={styles.nav}>
-      <nav className={styles.navSide}><a href="#collection">Collection</a><a href="#visit">Visit us</a></nav>
+
       <a className={styles.navLogo} href="#top" aria-label="Swiss Perpetual home"><Image src={asset(home.navigationLogo)} alt="Swiss Perpetual" fill priority unoptimized /></a>
-      <nav className={styles.navSide + " " + styles.navRight}><a href="/collection/">All brands</a><a href="#visit">Private viewing</a></nav>
+
     </header>
 
     <section className={styles.intro}>
