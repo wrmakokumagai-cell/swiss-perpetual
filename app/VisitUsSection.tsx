@@ -32,17 +32,17 @@ export default function VisitUsSection({ locations }: { locations: VisitLocation
         </div>
       </header>
 
-      <nav className={styles.selector} aria-label="Select showroom city">
-        {visibleLocations.map((item) => (
-          <button key={item.id} type="button" onClick={() => setSelectedId(item.id)} aria-pressed={selectedId === item.id}>
-            {item.code}
-          </button>
-        ))}
-      </nav>
 
       <article className={styles.showroom} key={`showroom-${location.id}`}>
         <Image src={asset(location.image)} alt={`Swiss Perpetual ${location.city} showroom`} fill priority={location.id === visibleLocations[0]?.id} unoptimized sizes="(max-width: 760px) 100vw, 96vw" />
         <div className={styles.showroomShade} />
+        <nav className={styles.selector} aria-label="Select showroom city">
+          {visibleLocations.map((item) => (
+            <button key={item.id} type="button" onClick={() => setSelectedId(item.id)} aria-pressed={selectedId === item.id}>
+              {item.code}
+            </button>
+          ))}
+        </nav>
         <div className={styles.showroomCopy}>
           <p>{location.code} / Swiss Perpetual</p>
           <h3>{location.city}</h3>
