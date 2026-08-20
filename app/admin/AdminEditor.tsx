@@ -218,16 +218,16 @@ export default function AdminEditor() {
         </div>
         <div className={styles.panel}><h3>Horizontal strip 1</h3><Field label="Heading" value={content.home.watchHeading.join(" ").replace(/\s+/g, " ").trim()} onChange={(value) => updateHome({ watchHeading: [value, "", ""] })} /></div>
         <div className={styles.panel}>
-          <div className={styles.locationManagerHeader}><div><h3>Visit us</h3><p className={styles.hint}>Manage the city selector, showroom panels, and Google Maps destinations shown on the homepage.</p></div><button type="button" onClick={addVisitLocation}>Add location</button></div>
+          <div className={styles.locationManagerHeader}><div><h3>Visit us</h3><p className={styles.hint}>Edit the city switcher and the Lovable-style showroom, location details, and map content shown on the homepage.</p></div><button type="button" onClick={addVisitLocation}>Add location</button></div>
           {content.home.visitLocations.length === 0 && <p className={styles.emptyState}>No Visit Us locations are currently configured.</p>}
           <div className={styles.locationList}>{content.home.visitLocations.map((location, index) => <article className={styles.locationCard} key={location.id}>
             <header><div><small>Location {String(index + 1).padStart(2, "0")}</small><strong>{location.city || "Untitled location"}</strong></div><div className={styles.locationActions}><button type="button" className={location.visible ? styles.visibleActive : ""} onClick={() => updateVisitLocation(location.id, { visible: !location.visible })}>{location.visible ? "Visible" : "Hidden"}</button><button type="button" className={styles.removeAction} onClick={() => removeVisitLocation(location.id)}>Remove</button></div></header>
             <div className={styles.locationGrid}><Field label="Selector code" value={location.code} onChange={(code) => updateVisitLocation(location.id, { code: code.toUpperCase().slice(0, 4) })} /><Field label="City" value={location.city} onChange={(city) => updateVisitLocation(location.id, { city })} /></div>
             <MediaField label="Showroom image" value={location.image} onChange={(image) => updateVisitLocation(location.id, { image })} />
-            <Field label="Opening copy" value={location.lead} onChange={(lead) => updateVisitLocation(location.id, { lead })} multiline />
-            <div className={styles.locationGrid}><Field label="Location label" value={location.area} onChange={(area) => updateVisitLocation(location.id, { area })} /><Field label="Access / appointment copy" value={location.access} onChange={(access) => updateVisitLocation(location.id, { access })} /></div>
-            <Field label="What to expect" value={location.expectation} onChange={(expectation) => updateVisitLocation(location.id, { expectation })} multiline />
-            <Field label="Google Maps search query" value={location.map} onChange={(map) => updateVisitLocation(location.id, { map })} />
+            <Field label="Showroom introduction" value={location.lead} onChange={(lead) => updateVisitLocation(location.id, { lead })} multiline />
+            <div className={styles.locationGrid}><Field label="Showroom / location name" value={location.area} onChange={(area) => updateVisitLocation(location.id, { area })} /><Field label="Access and appointments" value={location.access} onChange={(access) => updateVisitLocation(location.id, { access })} /></div>
+            <Field label="Showroom experience" value={location.expectation} onChange={(expectation) => updateVisitLocation(location.id, { expectation })} multiline />
+            <Field label="Google Maps location or search query" value={location.map} onChange={(map) => updateVisitLocation(location.id, { map })} />
           </article>)}</div>
         </div>
       </>}
