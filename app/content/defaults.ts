@@ -159,12 +159,17 @@ export const defaultSiteContent: SiteContent = {
     heroVideo: "/swiss/Toppy.mp4",
     heroPoster: "/swiss/386469065_1150884049223128_5253316123175005677_n.jpg",
     heroCopy: "Fine objects\nconsidered slowly.",
+    conveyorBrands: [...brandMap.values()]
+      .filter((brand) => brand.slug !== "others")
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((brand) => brand.slug),
     watchHeading: ["Watches with", "a life beyond", "the moment."],
     watchCopy: "",
     visitHeading: ["A step closer", "to your next", "luxury timepiece."],
     featuredHeading: "Featured Collection",
     featuredIntroHeading: "Find what's best for you.",
     featuredIntroCopy: "Swiss Perpetual brings together a multitude of luxury watch choices, from enduring maisons to modern icons. Discover distinct designs, histories, and points of view selected for collectors in Manila, Cebu, and Davao.",
+    featuredBackground: "/swiss/386469065_1150884049223128_5253316123175005677_n.jpg",
     featuredBrands: ["audemars-piguet", "rolex", "cartier", "patek-philippe"],
     featuredLogos: Object.fromEntries([...brandMap.values()].map((brand) => [brand.slug, `/swiss/featured-brands/${brand.slug}.png`])),
     visitLocations: [
@@ -177,3 +182,9 @@ export const defaultSiteContent: SiteContent = {
 };
 
 export const defaultBrand = (slug: string) => defaultSiteContent.brands.find((brand) => brand.slug === slug);
+
+
+
+
+
+

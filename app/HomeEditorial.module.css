@@ -272,7 +272,7 @@
 .featuredMainImage{min-height:680px}
 @media(max-width:760px){.featuredEditorialCard{min-height:0}.featuredMainImage{min-height:70vh}}
 /* Story 07 backdrop behind the featured card */
-.collection{position:relative;isolation:isolate;background:#111 url("/swiss/386469065_1150884049223128_5253316123175005677_n.jpg") center 48%/cover no-repeat;overflow:hidden}
+.collection{position:relative;isolation:isolate;background:#111;overflow:hidden}
 .collection::before{content:"";position:absolute;inset:0;z-index:0;background:rgba(0,0,0,.28)}
 .collection> *{position:relative;z-index:1}
 .featuredEditorialCard{box-shadow:0 18px 56px rgba(0,0,0,.22)}
@@ -320,7 +320,7 @@
 .collection{padding:0!important;border:0!important;background:#0a0a0a!important;overflow:visible!important}
 .featuredScrollScene{--featured-blur:0px;--featured-brightness:1;--featured-saturation:1;--featured-scale:1.015;--featured-wash:.56;--featured-intro-opacity:1;--featured-opening-shift:0px;--featured-reveal-opacity:0;--featured-reveal-inset:100%;--featured-reveal-shift:78px;--featured-family-opacity:0;--featured-ap-x:-150px;--featured-ap-y:160px;--featured-rolex-x:-48px;--featured-rolex-y:160px;--featured-cartier-x:48px;--featured-cartier-y:160px;--featured-patek-x:150px;--featured-patek-y:160px;--featured-center-scale:1;--featured-all-brands-opacity:0;height:285svh;position:relative;color:#edebeb;background:#0a0a0a}
 .featuredSticky{height:100svh;min-height:620px;position:sticky;top:0;overflow:hidden;isolation:isolate}
-.featuredSceneImage{position:absolute;inset:-34px;z-index:-3;background-image:url("/swiss/386469065_1150884049223128_5253316123175005677_n.jpg");background-position:center 44%;background-size:cover;filter:blur(var(--featured-blur)) brightness(var(--featured-brightness)) saturate(var(--featured-saturation));transform:scale(var(--featured-scale));will-change:filter,transform}
+.featuredSceneImage{position:absolute;inset:-34px;z-index:-3;background-image:var(--featured-background);background-position:center 44%;background-size:cover;filter:blur(var(--featured-blur)) brightness(var(--featured-brightness)) saturate(var(--featured-saturation));transform:scale(var(--featured-scale));will-change:filter,transform}
 .featuredSceneWash{position:absolute;inset:0;z-index:-2;background:linear-gradient(90deg,rgba(7,7,7,.52),rgba(7,7,7,.13) 56%,rgba(7,7,7,.24));opacity:var(--featured-wash);will-change:opacity}
 .featuredOpening{width:min(660px,48vw);position:absolute;left:clamp(24px,6vw,112px);top:50%;transform:translateY(calc(-50% + var(--featured-opening-shift)));opacity:var(--featured-intro-opacity);will-change:transform,opacity}
 .featuredEyebrow{margin:0 0 20px;font-size:11px;line-height:1;letter-spacing:.11em;text-transform:uppercase}

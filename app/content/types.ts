@@ -54,12 +54,14 @@ export type HomeContent = {
   heroVideo: string;
   heroPoster: string;
   heroCopy: string;
+  conveyorBrands: string[];
   watchHeading: [string, string, string];
   watchCopy: string;
   visitHeading: [string, string, string];
   featuredHeading: string;
   featuredIntroHeading: string;
   featuredIntroCopy: string;
+  featuredBackground: string;
   featuredBrands: string[];
   featuredLogos: Record<string, string>;
   visitLocations: VisitLocation[];

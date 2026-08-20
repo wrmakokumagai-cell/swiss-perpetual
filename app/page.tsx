@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect } from "react";
 import HeroVideo from "./HeroVideo";
 import FeaturedScroller from "./FeaturedScroller";
-import ScrollWipeHeading from "./ScrollWipeHeading";
 import VisitUsSection from "./VisitUsSection";
 import { useSiteContent } from "./content/useSiteContent";
-import styles from "./HomeEditorial.module.css";
+import styles from "./HomepageClean.module.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const asset = (path: string) => path.startsWith("/api/") || path.startsWith("http") ? path : basePath + path;
@@ -14,24 +14,80 @@ const asset = (path: string) => path.startsWith("/api/") || path.startsWith("htt
 export default function Home() {
   const { content } = useSiteContent();
   const home = content.home;
+
+  useEffect(() => {
+    const reveals = Array.from(document.querySelectorAll<HTMLElement>("[data-scroll-reveal]"));
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reducedMotion) {
+      reveals.forEach((node) => { node.dataset.revealVisible = "true"; });
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const node = entry.target as HTMLElement;
+        node.dataset.revealVisible = "true";
+        observer.unobserve(node);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -12% 0px" });
+
+    reveals.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+  const conveyor = (home.conveyorBrands?.length
+    ? home.conveyorBrands
+    : content.brands.filter((brand) => brand.slug !== "others").map((brand) => brand.slug))
+    .flatMap((slug) => {
+      const brand = content.brands.find((item) => item.slug === slug);
+      return brand ? [brand] : [];
+    });
+
+  const watchStrip = home.watchHeading.join(" ").replace(/\s+/g, " ").trim();
+
+  const horizontalStrip = (text: string) => <section className={styles.strip} aria-label={text}>
+    <div className={styles.stripTrack} aria-hidden="true">
+      {[0, 1].map((group) => <div className={styles.stripGroup} key={group}>
+        {[0, 1, 2].map((item) => <span className={styles.display} key={`${group}-${item}`}>{text}<i>/</i></span>)}
+      </div>)}
+    </div>
+  </section>;
   return <main id="top" className={styles.page}>
-    <header className={styles.nav}><a className={styles.brand} href="#top" aria-label="Swiss Perpetual"><Image src={asset(home.navigationLogo)} alt="" width={1500} height={250} priority unoptimized /></a></header>
-    <section className={styles.intro} aria-labelledby="intro-title">
-      <p className={styles.kicker}>{home.introKicker.split("\n").map((line, index) => <span key={line}>{index > 0 && <br />}{line}</span>)}</p>
-      <h1 id="intro-title" className={styles.introArtwork}><span className={styles.srOnly}>Seconds That Last</span><Image src={asset(home.introLogo)} alt="" width={5884} height={980} priority unoptimized /></h1>
-      <div className={styles.introCopy}><p>{home.introCopy}</p><a href="/collection/">Explore the collection</a></div>
+    <header className={styles.nav}>
+      <nav className={styles.navSide}><a href="#collection">Collection</a><a href="#visit">Visit us</a></nav>
+      <a className={styles.navLogo} href="#top" aria-label="Swiss Perpetual home"><Image src={asset(home.navigationLogo)} alt="Swiss Perpetual" fill priority unoptimized /></a>
+      <nav className={styles.navSide + " " + styles.navRight}><a href="/collection/">All brands</a><a href="#visit">Private viewing</a></nav>
+    </header>
+
+    <section className={styles.intro}>
+      <div className={styles.introTop}>
+        <p className={styles.eyebrow + " " + styles.introKicker}>{home.introKicker.split("\n").map((line, i) => <span key={line + i}>{i > 0 && <br />}{line}</span>)}</p>
+        <div className={styles.introCopy}><p>{home.introCopy}</p><a className={styles.textLink} href="/collection/">Explore the collection ↗</a></div>
+      </div>
+      <Image className={styles.wordmark} src={asset(home.introLogo)} alt="Seconds That Last" width={5884} height={980} priority unoptimized />
+      <div className={styles.heroGrid}>
+        <p className={styles.eyebrow + " " + styles.heroLabel}>Manila flagship store</p>
+        <div className={styles.hero}><HeroVideo src={asset(home.heroVideo)} poster={asset(home.heroPoster)} /><div className={styles.heroShade} /><p className={styles.eyebrow + " " + styles.heroCopy}>{home.heroCopy}</p></div>
+      </div>
     </section>
-    <section className={styles.hero} aria-label="Swiss Perpetual showroom film">
-      <HeroVideo src={asset(home.heroVideo)} poster={asset(home.heroPoster)} />
-      <div className={styles.heroShade} />
-      <p>{home.heroCopy.split("\n").map((line, index) => <span key={line}>{index > 0 && <br />}{line}</span>)}</p>
+
+    <div className={styles.marquee} aria-label="Swiss Perpetual brands"><div className={styles.marqueeTrack}>{[0,1].map(group => <div className={styles.marqueeGroup} key={group}>{conveyor.map((brand) => <span key={`${group}-${brand.slug}`}>{brand.name}<i>/</i></span>)}</div>)}</div></div>
+
+    <section className={styles.statement}>
+      <div className={`${styles.statementGrid} ${styles.scrollReveal}`} data-scroll-reveal><p className={styles.eyebrow}>Our collection</p><h2 className={styles.display}>Made for now.<br />Kept for generations.</h2></div>
+      <div className={styles.statementDetail}><h3 className={`${styles.display} ${styles.scrollReveal} ${styles.revealDelayOne}`} data-scroll-reveal>{home.featuredIntroHeading}</h3><p className={`${styles.scrollReveal} ${styles.revealDelayTwo}`} data-scroll-reveal>{home.featuredIntroCopy}</p></div>
     </section>
-    <section className={styles.featureStage} id="visit" aria-labelledby="feature-title" data-wipe-stage>
-      <div className={styles.featureSticky}><div className={styles.feature}><div className={styles.featureLeft}><div className={styles.featureEditorial}><div className={styles.featureCopy}><ScrollWipeHeading lines={home.watchHeading} />{home.watchCopy && <p>{home.watchCopy}</p>}</div></div></div><div className={styles.featureImage} aria-hidden="true" /></div></div>
-    </section>
-    <section className={styles.collection} id="collection" aria-labelledby="collection-title"><FeaturedScroller content={home} brands={content.brands} /></section>
-    <section className={styles.visitPrelude} aria-labelledby="visit-prelude-title" data-wipe-stage><ScrollWipeHeading id="visit-prelude-title" lines={home.visitHeading} /></section>
-    <VisitUsSection locations={home.visitLocations} />
-    <footer className={styles.footer}><div className={styles.footerBrand}><Image src={asset("/swiss/footer-logo-white.png")} alt="Swiss Perpetual Luxury Watches" width={1039} height={500} unoptimized /></div><a className={styles.footerPortfolio} href="https://wrmakokumagai-cell.github.io/" target="_blank" rel="noreferrer" aria-label="Visit WR Mako Kumagai portfolio"><Image src={asset("/swiss/OP.png")} alt="WR Mako Kumagai" width={11180} height={5262} unoptimized /></a><p className={styles.copyright}>© 2026 Swiss Perpetual / Manila, Cebu, Davao</p></footer>
+
+    {horizontalStrip(watchStrip)}
+    <section id="collection"><FeaturedScroller content={home} brands={content.brands} /></section>
+    <section id="visit"><VisitUsSection locations={home.visitLocations} /></section>
+
+    <footer className={styles.footer}>
+      <Image className={styles.footerBrand} src={asset("/swiss/footer-logo-white.png")} alt="Swiss Perpetual Luxury Watches" width={1039} height={500} unoptimized />
+      <p className={styles.copyright}>© 2026 Swiss Perpetual / Manila, Cebu, Davao</p>
+      <a href="https://wrmakokumagai-cell.github.io/" target="_blank" rel="noreferrer"><Image className={styles.footerPortfolio} src={asset("/swiss/OP.png")} alt="WR Mako Kumagai" width={11180} height={5262} unoptimized /></a>
+    </footer>
   </main>;
 }
+

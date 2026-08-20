@@ -206,8 +206,17 @@ export default function AdminEditor() {
         <header className={styles.sectionTitle}><p>Main page</p><h2>Home layout editor</h2></header>
         <div className={styles.panel}><h3>Opening block</h3><MediaField label="Top navigation logo" value={content.home.navigationLogo} onChange={(navigationLogo) => updateHome({ navigationLogo })} /><MediaField label="Seconds That Last artwork" value={content.home.introLogo} onChange={(introLogo) => updateHome({ introLogo })} /><Field label="Small heading" value={content.home.introKicker} onChange={(introKicker) => updateHome({ introKicker })} multiline /><Field label="Opening copy" value={content.home.introCopy} onChange={(introCopy) => updateHome({ introCopy })} multiline /></div>
         <div className={styles.panel}><h3>Hero block</h3><MediaField label="Hero video" value={content.home.heroVideo} accept="video/*" onChange={(heroVideo) => updateHome({ heroVideo })} /><MediaField label="Video poster" value={content.home.heroPoster} onChange={(heroPoster) => updateHome({ heroPoster })} /><Field label="Hero copy" value={content.home.heroCopy} onChange={(heroCopy) => updateHome({ heroCopy })} multiline /></div>
-        <div className={styles.panel}><h3>Horizontal strip 1</h3>{content.home.watchHeading.map((line, index) => <Field key={index} label={`Heading line ${index + 1}`} value={line} onChange={(value) => { const next = [...content.home.watchHeading] as [string, string, string]; next[index] = value; updateHome({ watchHeading: next }); }} />)}<Field label="Optional supporting copy" value={content.home.watchCopy} onChange={(watchCopy) => updateHome({ watchCopy })} multiline /></div>
-        <div className={styles.panel}><h3>Horizontal strip 2</h3>{content.home.visitHeading.map((line, index) => <Field key={index} label={`Heading line ${index + 1}`} value={line} onChange={(value) => { const next = [...content.home.visitHeading] as [string, string, string]; next[index] = value; updateHome({ visitHeading: next }); }} />)}</div>
+        <div className={styles.panel}>
+          <h3>Brand conveyor</h3>
+          <p className={styles.hint}>Choose the brands shown in the animated homepage conveyor. Every active brand is selected by default; cities are excluded.</p>
+          <div className={styles.checkGrid}>{content.brands.filter((item) => item.slug !== "others").map((item) => {
+            const selected = content.home.conveyorBrands ?? [];
+            const checked = selected.includes(item.slug);
+            return <label key={item.slug}><input type="checkbox" checked={checked} onChange={() => updateHome({ conveyorBrands: checked ? selected.filter((slug) => slug !== item.slug) : [...selected, item.slug] })} />{item.name}</label>;
+          })}</div>
+          <p className={styles.hint}>{content.home.conveyorBrands?.length ?? 0} brands selected.</p>
+        </div>
+        <div className={styles.panel}><h3>Horizontal strip 1</h3><Field label="Heading" value={content.home.watchHeading.join(" ").replace(/\s+/g, " ").trim()} onChange={(value) => updateHome({ watchHeading: [value, "", ""] })} /></div>
         <div className={styles.panel}>
           <div className={styles.locationManagerHeader}><div><h3>Visit us</h3><p className={styles.hint}>Manage the city selector, showroom panels, and Google Maps destinations shown on the homepage.</p></div><button type="button" onClick={addVisitLocation}>Add location</button></div>
           {content.home.visitLocations.length === 0 && <p className={styles.emptyState}>No Visit Us locations are currently configured.</p>}
@@ -235,3 +244,4 @@ export default function AdminEditor() {
     </section>
   </main>;
 }
+
